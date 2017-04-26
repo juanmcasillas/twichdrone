@@ -6,3 +6,5 @@ This project implements a two wheel driven drone, controlled via WiFi with a por
 Note that mjpg-streamer is another project (see https://github.com/jacksonliam/mjpg-streamer for details).
 
 See the blog entry for more info, details & howtos (http://blog.capitanpenurias.com/2017/04/raspberry-pi-arduino-twichdrone.html)
+
+Also check the Hackster.io page for comments (https://www.hackster.io/Casillas/twichdrone-implementing-a-sort-of-rainbow-six-twich-drone-fd7d4f)
