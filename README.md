@@ -3,4 +3,4 @@ A proof of concept to integrate various embedded technologies, in order to "repl
 
 This project implements a two wheel driven drone, controlled via WiFi with a portable device, using a browser via standard HTML & JS code.
 
-note that mjpg-streamer is another project (see https://github.com/jacksonliam/mjpg-streamer for details).
+Note that mjpg-streamer is another project (see https://github.com/jacksonliam/mjpg-streamer for details).
