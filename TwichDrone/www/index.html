@@ -1,0 +1,101 @@
+<html>
+  <head>
+    <title>TwichDrone Interface</title>
+    
+    <script src="jquery.min.js"></script>
+    <link href="main.css" rel="stylesheet">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi" />
+  </head>
+  <body>
+  
+    <div id="videocontainer" class="videocontainer">
+        
+        
+            <img class="imgoverlay" width="100%" src="overlay.png" />
+            <img class="imgvideo" width="100%" id="video1" src="/?action=stream" alt="video" />
+        
+       
+        <div id="control_container" class="control_container">
+
+            <div id="control_left_box" class="control_left_box">
+              <input type="image" src="blank.gif" class="button" id="buttonrec" />
+            </div>
+        
+            <div id="control_right_box" class="control_right_box">
+              <div id="joystick_control" class="joystick_control"></div>
+            </div>  <!-- joystick container -->
+        
+        </div>
+        <div id="debug" class="debug"></div>
+              
+    </div> 
+  
+  <script src="nipplejs.js"></script>
+  <script src="jquery.min.js"></script>
+
+  <script src="debug.js"></script>
+  <script src="joystick_utils.js"></script>
+  <script src="wsock.js"></script>
+
+<script>
+
+document.fullscreenEnabled = document.fullscreenEnabled || document.mozFullScreenEnabled || document.documentElement.webkitRequestFullScreen;
+
+//var wsock = new WSock('ws://192.168.0.163:8000/');    // pi with VodafoneLAN 
+//var wsock = new WSock('ws://192.168.0.155:8000/');    // pi with control in mac
+//var wsock = new WSock('ws://localhost:8000/');          // mac
+var wsock = new WSock('ws://192.168.2.1:8000/');          // Pi production
+
+
+function requestFullscreen(element) {
+    if (element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+    } else if (element.webkitRequestFullScreen) {
+        element.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+    }
+}
+function RequestStatus() {
+    var o = Object();
+    o.kind = 'status';
+    wsock.Send(JSON.stringify(o));
+} 
+
+
+
+var joystick = CreateJoystick(wsock);
+
+$(document).ready(function() {
+    $("#buttonrec").click(function(){
+        var BData = Object();
+        BData.kind = "button";
+        BData.id = "rec";
+        BData.pressed = "true";
+        var msg = JSON.stringify(BData);
+        wsock.Send(msg);
+        
+        /* in windows (work) doesn't work receiving messages. I don't know. */
+        /* mac chrome latest version: ok */
+        
+        
+     });
+    
+   
+    $("#videocontainer").click(function(){
+        if (document.fullscreenEnabled) {
+            requestFullscreen(document.documentElement);
+        }
+    });
+ 
+    // set periodic interval request
+    
+    var interval = setInterval(RequestStatus, 10*1000); // each 10 seconds
+
+});
+
+
+
+</script>
+</body>
